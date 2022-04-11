@@ -3,10 +3,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='pdutils',  # 应用名
-    version='0.1.0',  # 版本号
-    description='utils',
-    # packages=['pdutils'],  # 包括在安装包内的 Python 包
+    name='archer_nlp',  # 应用名
+    version='0.1.1',  # 版本号
+    description='archer nlp',
+    url='https://github.com/beybin/archer_nlp',
+    license='Apache License 2.0',
     packages=find_packages(),
     install_requires=["pandas", "numpy"]
 )
