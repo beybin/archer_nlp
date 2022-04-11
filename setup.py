@@ -3,11 +3,14 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='archer_nlp',  # 应用名
-    version='0.1.1',  # 版本号
+    name='archer_nlp',
+    version='0.1.2',
     description='archer nlp',
-    url='https://github.com/beybin/archer_nlp',
+    long_description='',
     license='Apache License 2.0',
-    packages=find_packages(),
-    install_requires=["pandas", "numpy"]
+    url='https://github.com/beybin/archer_nlp',
+    author='beybin',
+    author_email='retry.happy@163.com',
+    install_requires=["pandas>=1.4.1", "numpy>=1.19.3"],
+    packages=find_packages()
 )
