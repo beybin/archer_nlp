@@ -1,3 +1,4 @@
+import json
 import uuid
 from datetime import datetime
 
@@ -40,3 +41,11 @@ def read_txt(path):
         for line in f:
             data_list.append(line.strip())
     return data_list
+
+
+def dump_json(obj, path):
+    json.dump(obj, open(path, 'w', encoding='utf8'), ensure_ascii=False)
+
+
+def load_json(path):
+    return json.load(open(path, encoding='utf8'))
