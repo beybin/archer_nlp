@@ -1,5 +1,22 @@
+import uuid
+from datetime import datetime
+
 import numpy as np
 import pandas as pd
+
+
+def generate_uuid():
+    try:
+        md5 = uuid.uuid4()
+        return str(md5).upper().replace('-', '')
+    except Exception as e:
+        print('generate_uuid error:', e)
+        return None
+
+
+def get_time():
+    # 2022-03-03 16:12:30
+    return datetime.now().strftime("%Y-%m-%d %X")
 
 
 def read_excel(path, sheet_index=0, is_value=True):
