@@ -6,7 +6,7 @@ setup(
     name='pdutils',  # 应用名
     version='0.1.0',  # 版本号
     description='utils',
-    packages=['pdutils'],  # 包括在安装包内的 Python 包
-    # packages=find_packages(),
+    # packages=['pdutils'],  # 包括在安装包内的 Python 包
+    packages=find_packages(),
     install_requires=["pandas", "numpy"]
 )
