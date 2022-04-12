@@ -35,6 +35,23 @@ def write_excel(path, result_list, columns, sheet_index=0):
     dt.to_excel(path, index=sheet_index)
 
 
+def df_to_sql(path_df, table, engine, is_df=False):
+    """
+    df import to sql
+    :param path_df:
+    :param table: sql table
+    :param engine: sqlalchemy engine
+    :param is_df: True为DataFrame，False为Excel路径
+    :return:
+    """
+    # pandas批量导入mysql
+    if is_df:
+        df = path_df
+    else:
+        df = read_excel(path_df, is_value=False)
+    df.to_sql(table, engine, if_exists='append', index=False)
+
+
 def read_txt(path):
     data_list = []
     with open(path, encoding='utf8') as f:
