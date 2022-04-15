@@ -31,7 +31,7 @@ def read_excel(path, sheet_index=0, is_value=True):
 
 
 def write_excel(path, result_list=[], columns=[], df=None, sheet_index=0):
-    if not df:
+    if df is not None:
         df = pd.DataFrame(result_list, columns=columns)
     df.to_excel(path, index=sheet_index)
 
