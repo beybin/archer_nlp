@@ -30,12 +30,10 @@ def read_excel(path, sheet_index=0, is_value=True):
         return df1
 
 
-def write_excel(path, result_list=[], columns=[], df=None, sheet_index=0, is_df=False):
-    if is_df:
-        dt = df
-    else:
-        dt = pd.DataFrame(result_list, columns=columns)
-    dt.to_excel(path, index=sheet_index)
+def write_excel(path, result_list=[], columns=[], df=None, sheet_index=0):
+    if not df:
+        df = pd.DataFrame(result_list, columns=columns)
+    df.to_excel(path, index=sheet_index)
 
 
 def df_to_sql(path_df, table, engine, is_df=False):
