@@ -30,8 +30,11 @@ def read_excel(path, sheet_index=0, is_value=True):
         return df1
 
 
-def write_excel(path, result_list, columns, sheet_index=0):
-    dt = pd.DataFrame(result_list, columns=columns)
+def write_excel(path, result_list=[], columns=[], df=None, sheet_index=0, is_df=False):
+    if is_df:
+        dt = df
+    else:
+        dt = pd.DataFrame(result_list, columns=columns)
     dt.to_excel(path, index=sheet_index)
 
 
