@@ -3,6 +3,7 @@ import json
 import uuid
 from datetime import datetime
 
+import Levenshtein
 import numpy as np
 import pandas as pd
 
@@ -88,3 +89,28 @@ def generate_dict(list1, list2=[]):
     except Exception as e:
         print(f"generate_dict error:{e}")
         return {}
+
+
+def get_max_check(check_base_list, check_refer_list, max_ratio=0.5, is_ret_lr=False):
+    result_list = []
+    for check_base in check_base_list:
+        max_lr = -1
+        max_check = ''
+        for check_refer in check_refer_list:
+            rcc_lr = Levenshtein.ratio(check_base, check_refer)
+            if rcc_lr < max_ratio:
+                continue
+            if rcc_lr > max_lr:
+                max_lr = rcc_lr
+                max_check = check_refer
+        if max_lr >= max_ratio:
+            if is_ret_lr:
+                result_list.append([check_base, max_check, max_lr])
+            else:
+                result_list.append([check_base, max_check])
+        else:
+            if is_ret_lr:
+                result_list.append([check_base, '', max_lr])
+            else:
+                result_list.append([check_base, ''])
+    return result_list
