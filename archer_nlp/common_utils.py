@@ -1,3 +1,4 @@
+import hashlib
 import json
 import uuid
 from datetime import datetime
@@ -8,10 +9,19 @@ import pandas as pd
 
 def generate_uuid():
     try:
-        md5 = uuid.uuid4()
-        return str(md5).upper().replace('-', '')
+        uuid4 = uuid.uuid4()
+        return str(uuid4).upper().replace('-', '')
     except Exception as e:
         print('generate_uuid error:', e)
+        return None
+
+
+def generate_uuid_md5(data, start='C1'):
+    try:
+        md5 = hashlib.md5(data.encode(encoding='utf8')).hexdigest().upper()[2:]
+        return start + md5[0:6] + '-' + md5[6:10] + '-' + md5[10:14] + '-' + md5[14:18] + '-' + md5[18:]
+    except Exception as e:
+        print('get_md5 error:', e)
         return None
 
 
@@ -67,3 +77,14 @@ def dump_json(obj, path):
 
 def load_json(path):
     return json.load(open(path, encoding='utf8'))
+
+
+def generate_dict(list1, list2=[]):
+    try:
+        if list2:
+            return dict(zip(list1, list2))
+        else:
+            return dict(zip(list1, range(len(list1))))
+    except Exception as e:
+        print(f"generate_dict error:{e}")
+        return {}
