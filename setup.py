@@ -11,6 +11,6 @@ setup(
     url='https://github.com/beybin/archer_nlp',
     author='beybin',
     author_email='1092386160@qq.com',
-    install_requires=["pandas"],
+    install_requires=["pandas", "numpy", "python-Levenshtein"],
     packages=find_packages()
 )
