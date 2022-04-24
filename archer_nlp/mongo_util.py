@@ -29,9 +29,7 @@ class Mongo:
             return db
         except Exception as e:
             print(except_info(e))
-            print('connect to mongo error, system exit!')
-            sys.exit(0)
-            # return None
+            raise Exception('connect to mongo error!')
 
     def get_list(self, table, where={}, columns=None):
         try:
@@ -106,3 +104,6 @@ class Mongo:
         except Exception as e:
             print(except_info(e))
             return None
+
+mongo = Mongo({'host': '192.168.1.11', 'port': 27017, 'db_user': 'crawler', 'db_pwd': 'crawler11', 'db_name': 'crawler'})
+dis_res = mongo.get_list('dayi_disease_20220420', where={'disease_type': '2'})
