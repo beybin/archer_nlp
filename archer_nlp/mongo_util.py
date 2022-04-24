@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from json import JSONEncoder
 from bson import ObjectId
 
-from common_utils import except_info
+from archer_nlp.common_utils import except_info
 
 
 class ObjectIdJSONEncoder(JSONEncoder):
