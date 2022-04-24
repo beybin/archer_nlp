@@ -1,6 +1,7 @@
 # coding:utf8
 import hashlib
 import json
+import sys
 import uuid
 from datetime import datetime
 
@@ -115,3 +116,14 @@ def get_max_check(check_base_list, check_refer_list, max_ratio=0.5, is_ret_lr=Fa
             else:
                 result_list.append([check_base, ''])
     return result_list
+
+
+def except_info(e=None):
+    t, v, tb = sys.exc_info()
+    # f'当前类名称：{self.__class__.__name__}'
+    # f"当前方法名：{sys._getframe().f_code.co_name}"
+    if e is None:
+        return {'lineno': tb.tb_lineno, 'error': '%s(\'%s\')' % (v.__class__.__name__, str(v))}
+    else:
+        return {'file': e.__traceback__.tb_frame.f_globals["__file__"], 'line': tb.tb_lineno,
+                'error': '%s(\'%s\')' % (v.__class__.__name__, str(v))}
