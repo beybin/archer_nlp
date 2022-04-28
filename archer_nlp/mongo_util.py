@@ -23,7 +23,8 @@ class Mongo:
         try:
             client = MongoClient(self.config.get('host', '127.0.0.1'), self.config.get('port', 27017))
             db = client.get_database(self.config.get('db_name', ''))
-            user, pwd = self.config.get("db_user"), self.config.get("db_pwd")
+            user = self.config.get("db_user", '')
+            pwd = self.config.get("db_pwd", '')
             if user and pwd:
                 db.authenticate(user, pwd)
             return db
