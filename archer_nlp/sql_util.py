@@ -13,7 +13,7 @@ def escape(q):
     return pymysql.converters.escape_string(q.strip()).replace(':', '\:')
 
 
-class Sql:
+class DataBase:
     def __init__(self, session, table):
         self.session = session
         self.table = table
