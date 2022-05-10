@@ -18,6 +18,27 @@ class DataBase:
         self.session = session
         self.table = table
 
+    def execute_query(self, query, fetch=0):
+        """
+        执行sql语句
+        :param query:
+        :param fetch: 0：返回cursor，1：返回第一行，2：返回所有行
+        :return:
+        """
+        try:
+            res = self.session.execute(query)
+            if fetch == 0:
+                return res
+            elif fetch == 1:
+                return res.fetchone()
+            else:
+                return res.fetchall()
+        except Exception as e:
+            print(except_info(e))
+            raise Exception('execute_query error!')
+        finally:
+            self.session.close()
+
     def insert_table(self, insert_dic={}):
         """
         插入数据表
