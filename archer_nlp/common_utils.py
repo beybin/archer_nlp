@@ -1,6 +1,7 @@
 # coding:utf8
 import hashlib
 import json
+import os.path
 import sys
 import uuid
 from datetime import datetime
@@ -64,6 +65,17 @@ def df_to_sql(path_df, table, engine, is_df=False):
     else:
         df = read_excel(path_df, is_value=False)
     df.to_sql(table, engine, if_exists='append', index=False)
+
+
+def get_extension(path):
+    """
+    获取扩展名（小写）
+    :param path:
+    :return:
+    """
+    if not os.path.exists(path):
+        raise ValueError('file not exists!')
+    return os.path.splitext(path)[-1].lower()
 
 
 def read_txt(path):
