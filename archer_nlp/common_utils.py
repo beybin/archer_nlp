@@ -34,14 +34,28 @@ def get_time():
     return datetime.now().strftime("%Y-%m-%d %X")
 
 
-def read_excel(path, sheet_index=0, is_value=True):
+def read_excel(path, sheet_index=0, is_value=True, is_replace=True, is_ffill=False):
+    """
+    读取Excel
+    :param path:
+    :param sheet_index:
+    :param is_value:
+    :param is_replace:
+    :param is_ffill: 单元格为空值（NaN，非空字符串）时，填充上一行的值，适用于合并单元格的情况。
+    :return:
+    """
     df = pd.read_excel(path, sheet_name=sheet_index)
+    if is_ffill:
+        df = df.ffill()
+
     # nan替换为空字符串
-    df1 = df.replace(np.nan, '', regex=True)
+    if is_replace:
+        df = df.replace(np.nan, '', regex=True)
+
     if is_value:
-        return df1.values
+        return df.values
     else:
-        return df1
+        return df
 
 
 def write_excel(path, result_list=[], columns=[], df=None, sheet_index=0):
