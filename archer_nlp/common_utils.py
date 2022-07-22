@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os.path
+import pickle
 import sys
 import uuid
 from datetime import datetime
@@ -106,6 +107,17 @@ def dump_json(obj, path):
 
 def load_json(path):
     return json.load(open(path, encoding='utf8'))
+
+
+def save_pkl(data, path):
+    with open(path, "wb") as f:
+        pickle.dump(data, f)
+
+
+def load_pkl(path):
+    with open(path, "rb") as f:
+        data = pickle.load(f)
+    return data
 
 
 def generate_dict(list1, list2=[]):
