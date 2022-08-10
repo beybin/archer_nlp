@@ -59,10 +59,11 @@ def read_excel(path, sheet_index=0, is_value=True, is_replace=True, is_ffill=Fal
         return df
 
 
-def write_excel(path, result_list=[], columns=[], df=None, sheet_index=0):
+def write_excel(path, res_list=[], columns=[], df=None):
     if df is None:
-        df = pd.DataFrame(result_list, columns=columns)
-    df.to_excel(path, index=sheet_index)
+        df = pd.DataFrame(res_list, columns=columns)
+    # 加engine、encoding参数是防止“openpyxl.utils.exceptions.IllegalCharacterError”
+    df.to_excel(path, engine='xlsxwriter', index=False, encoding='utf-8')
 
 
 def df_to_sql(path_df, table, engine, is_df=False):
