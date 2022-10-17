@@ -1,4 +1,7 @@
 import pymysql
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
 
 from archer_nlp.common_utils import except_info
 
@@ -14,8 +17,9 @@ def escape(q):
 
 
 class DataBase:
-    def __init__(self, session, table):
-        self.session = session
+    def __init__(self, url, table):
+        engine = create_engine(url, pool_recycle=30)
+        self.session = scoped_session(sessionmaker(bind=engine))
         self.table = table
 
     def execute_query(self, query, fetch=0):

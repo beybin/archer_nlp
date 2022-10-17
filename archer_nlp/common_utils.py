@@ -66,6 +66,17 @@ def write_excel(path, res_list=[], columns=[], df=None):
     df.to_excel(path, engine='xlsxwriter', index=False, encoding='utf-8')
 
 
+def df_concat(df1, df2, ignore_index=True):
+    """
+
+    :param df1:
+    :param df2:
+    :param ignore_index: True：重新排序，False：保留原有两个df的index
+    :return:
+    """
+    return pd.concat([df1, df2], ignore_index=ignore_index)
+
+
 def df_to_sql(path_df, table, engine, is_df=False):
     """
     df import to sql
