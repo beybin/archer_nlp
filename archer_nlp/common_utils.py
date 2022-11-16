@@ -1,4 +1,5 @@
 # coding:utf8
+from typing import Union
 import hashlib
 import json
 import os.path
@@ -6,7 +7,6 @@ import pickle
 import sys
 import uuid
 from datetime import datetime
-
 import Levenshtein
 import numpy as np
 import pandas as pd
@@ -35,28 +35,40 @@ def get_time():
     return datetime.now().strftime("%Y-%m-%d %X")
 
 
-def read_excel(path, sheet_index=0, is_value=True, is_replace=True, is_ffill=False):
+def read_excel(path, sheet_name: Union[int, list], is_value=True, is_replace=True, is_ffill=False):
     """
     读取Excel
     :param path:
-    :param sheet_index:
+    :param sheet_name:
     :param is_value:
     :param is_replace:
     :param is_ffill: 单元格为空值（NaN，非空字符串）时，填充上一行的值，适用于合并单元格的情况。
     :return:
     """
-    df = pd.read_excel(path, sheet_name=sheet_index)
-    if is_ffill:
-        df = df.ffill()
+    if not isinstance(sheet_name, list):
+        df = pd.read_excel(path, sheet_name=sheet_name)
+        if is_ffill:
+            df = df.ffill()
 
-    # nan替换为空字符串
-    if is_replace:
-        df = df.replace(np.nan, '', regex=True)
+        # nan替换为空字符串
+        if is_replace:
+            df = df.replace(np.nan, '', regex=True)
 
-    if is_value:
-        return df.values
+        if is_value:
+            return df.values
+        else:
+            return df
     else:
-        return df
+        df_dic = pd.read_excel(path, sheet_name=sheet_name)
+        for key in df_dic:
+            if is_ffill:
+                df_dic[key] = df_dic[key].ffill()
+
+            # nan替换为空字符串
+            if is_replace:
+                df_dic[key] = df_dic[key].replace(np.nan, '', regex=True)
+
+        return df_dic
 
 
 def write_excel(path, res_list=[], columns=[], df=None):
