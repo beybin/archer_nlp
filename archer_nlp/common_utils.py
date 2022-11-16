@@ -60,7 +60,7 @@ def read_excel(path, sheet_name: str | int | list | None = 0, is_value=True, is_
             return df
     else:
         df_dic = {}
-        for key, df in pd.read_excel(path, sheet_name=sheet_name):
+        for key, df in pd.read_excel(path, sheet_name=sheet_name).items():
             if is_ffill:
                 df_dic[key] = df.ffill()
 
