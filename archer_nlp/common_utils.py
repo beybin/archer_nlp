@@ -1,5 +1,5 @@
 # coding:utf8
-from typing import Union
+from __future__ import annotations
 import hashlib
 import json
 import os.path
@@ -35,7 +35,7 @@ def get_time():
     return datetime.now().strftime("%Y-%m-%d %X")
 
 
-def read_excel(path, sheet_name: Union[int, list], is_value=True, is_replace=True, is_ffill=False):
+def read_excel(path, sheet_name: str | int | list | None = 0, is_value=True, is_replace=True, is_ffill=False):
     """
     读取Excel
     :param path:
@@ -59,14 +59,19 @@ def read_excel(path, sheet_name: Union[int, list], is_value=True, is_replace=Tru
         else:
             return df
     else:
-        df_dic = pd.read_excel(path, sheet_name=sheet_name)
-        for key in df_dic:
+        df_dic = {}
+        for key, df in pd.read_excel(path, sheet_name=sheet_name):
             if is_ffill:
-                df_dic[key] = df_dic[key].ffill()
+                df_dic[key] = df.ffill()
 
             # nan替换为空字符串
             if is_replace:
-                df_dic[key] = df_dic[key].replace(np.nan, '', regex=True)
+                df_dic[key] = df.replace(np.nan, '', regex=True)
+
+            if is_value:
+                df_dic[key] = df.values
+            else:
+                df_dic[key] = df
 
         return df_dic
 
