@@ -62,11 +62,11 @@ def read_excel(path, sheet_name: str | int | list | None = 0, is_value=True, is_
         df_dic = {}
         for key, df in pd.read_excel(path, sheet_name=sheet_name).items():
             if is_ffill:
-                df_dic[key] = df.ffill()
+                df = df.ffill()
 
             # nan替换为空字符串
             if is_replace:
-                df_dic[key] = df.replace(np.nan, '', regex=True)
+                df = df.replace(np.nan, '', regex=True)
 
             if is_value:
                 df_dic[key] = df.values
