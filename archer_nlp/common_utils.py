@@ -35,18 +35,19 @@ def get_time():
     return datetime.now().strftime("%Y-%m-%d %X")
 
 
-def read_excel(path, sheet_name: str | int | list | None = 0, is_value=True, is_replace=True, is_ffill=False):
+def read_excel(path, sheet_name: str | int | list | None = 0, header: int | None = 0, is_value=True, is_replace=True, is_ffill=False):
     """
     读取Excel
     :param path:
     :param sheet_name:
+    :param header: 传None表示第一行是数据，不传（默认为0）表示第一行是列名
     :param is_value:
     :param is_replace:
     :param is_ffill: 单元格为空值（NaN，非空字符串）时，填充上一行的值，适用于合并单元格的情况。
     :return:
     """
     if not isinstance(sheet_name, list):
-        df = pd.read_excel(path, sheet_name=sheet_name)
+        df = pd.read_excel(path, sheet_name=sheet_name, header=header)
         if is_ffill:
             df = df.ffill()
 
@@ -60,7 +61,7 @@ def read_excel(path, sheet_name: str | int | list | None = 0, is_value=True, is_
             return df
     else:
         df_dic = {}
-        for key, df in pd.read_excel(path, sheet_name=sheet_name).items():
+        for key, df in pd.read_excel(path, sheet_name=sheet_name, header=header).items():
             if is_ffill:
                 df = df.ffill()
 
