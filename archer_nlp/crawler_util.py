@@ -32,7 +32,23 @@ def init_bs(url):
 
 
 def get_text(element):
+    """
+    获取文本内容（无HTML标签）
+    :param element:
+    :return:
+    """
     return element.get_text().strip()
+
+
+def get_text_tag(element):
+    """
+    获取带HTML标签（如<p>标签）的文本内容
+    :param element:
+    :return:
+    """
+    # 示例：https://www.dayi.org.cn/qa/330
+    # get_text_tag(find_element(soup, 'div', 'article-content').contents[0])
+    return ''.join([str(ele) for ele in element.contents])
 
 
 def find_element(element, class_obj, class_name=''):

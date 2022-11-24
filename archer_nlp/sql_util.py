@@ -22,14 +22,28 @@ class DataBase:
         self.session = scoped_session(sessionmaker(bind=engine))
         self.table = table
 
-    def execute_query(self, query, fetch=0):
+    def execute_query(self, keys=None, table=None, where='', fetch=0):
         """
         执行sql语句
-        :param query:
+        :param keys:
+        :param table:
+        :param where:
         :param fetch: 0：返回cursor，1：返回第一行，2：返回所有行
         :return:
         """
         try:
+            query = 'SELECT '
+            if keys is None:
+                query += '*'
+            else:
+                query += keys
+            if table is None:
+                query += ' FROM ' + self.table
+            else:
+                query += ' FROM ' + table
+            if where:
+                query += " WHERE " + where
+
             res = self.session.execute(query)
             if fetch == 0:
                 return res
@@ -43,7 +57,7 @@ class DataBase:
         finally:
             self.session.close()
 
-    def insert_table(self, insert_dic={}):
+    def insert_table(self, insert_dic=None):
         """
         插入数据表
         :param session:
@@ -51,6 +65,8 @@ class DataBase:
         :param insert_dic:
         :return:
         """
+        if insert_dic is None:
+            insert_dic = {}
         query = f"insert into {self.table}("
         try:
             for insert_name in insert_dic.keys():
@@ -72,7 +88,7 @@ class DataBase:
         finally:
             self.session.close()
 
-    def update_table(self, where={}, update_dic={}):
+    def update_table(self, where=None, update_dic=None):
         """
         更新数据表
         :param session:
@@ -81,6 +97,10 @@ class DataBase:
         :param update_dic:
         :return:
         """
+        if where is None:
+            where = {}
+        if update_dic is None:
+            update_dic = {}
         try:
             query = f"UPDATE {self.table} SET "
             for update_name, update_value in update_dic.items():
