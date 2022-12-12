@@ -17,7 +17,18 @@ requests_headers = {
 }
 
 
+# 常见流程
+# 1、初始化bs：init_bs
+# 2、用class name查找元素：find_element、find_elements、select_elements
+# 3、获取元素内容：get_text、get_text_tag
+
+
 def get_content(url):
+    """
+    获取页面内容
+    :param url:
+    :return:
+    """
     # 如果慢的话，关闭代理。
     try:
         return request.urlopen(url).read().decode('UTF-8')
@@ -27,8 +38,46 @@ def get_content(url):
 
 
 def init_bs(url):
+    """
+    初始化bs
+    :param url:
+    :return:
+    """
     con = get_content(url)
     return BeautifulSoup(con, 'lxml')
+
+
+def find_element(element, class_obj, class_name=''):
+    """
+    获取元素
+    :param element:
+    :param class_obj:
+    :param class_name:
+    :return:
+    """
+    return element.find(class_obj, attrs={'class': class_name})
+
+
+def find_elements(element, class_obj, class_name=''):
+    """
+    获取多个元素
+    :param element:
+    :param class_obj:
+    :param class_name:
+    :return:
+    """
+    return element.find_all(class_obj, attrs={'class': class_name})
+
+
+def select_elements(element, xpath_str):
+    """
+    使用xpath路径选择元素
+    :param element:
+    :param xpath_str:
+    :return:
+    """
+    # element.select('div.short-field-item > div > p.short-field-title')
+    return element.select(xpath_str)
 
 
 def get_text(element):
@@ -46,19 +95,6 @@ def get_text_tag(element):
     :param element:
     :return:
     """
-    # 示例：https://www.dayi.org.cn/qa/330
-    # get_text_tag(find_element(soup, 'div', 'article-content').contents[0])
+    # element = find_element(soup, 'div', 'docYes')
+    # get_text_tag(element).strip()
     return ''.join([str(ele) for ele in element.contents])
-
-
-def find_element(element, class_obj, class_name=''):
-    return element.find(class_obj, attrs={'class': class_name})
-
-
-def find_elements(element, class_obj, class_name=''):
-    return element.find_all(class_obj, attrs={'class': class_name})
-
-
-def select_elements(element, xpath_str):
-    # element.select('div.short-field-item > div > p.short-field-title')
-    return element.select(xpath_str)
