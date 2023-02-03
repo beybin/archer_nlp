@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='archer_nlp',
-    version='0.1.27',
+    version='0.1.28',
     description='archer nlp',
     long_description='',
     license='',

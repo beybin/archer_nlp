@@ -22,9 +22,10 @@ class DataBase:
         self.session = scoped_session(sessionmaker(bind=engine))
         self.table = table
 
-    def execute_query(self, keys=None, table=None, where='', fetch=0):
+    def execute_query(self, query=None, keys=None, table=None, where='', fetch=0):
         """
         执行sql语句
+        :param query: 直接执行sql语句
         :param keys:
         :param table:
         :param where:
@@ -32,17 +33,18 @@ class DataBase:
         :return:
         """
         try:
-            query = 'SELECT '
-            if keys is None:
-                query += '*'
-            else:
-                query += keys
-            if table is None:
-                query += ' FROM ' + self.table
-            else:
-                query += ' FROM ' + table
-            if where:
-                query += " WHERE " + where
+            if query is None:
+                query = 'SELECT '
+                if keys is None:
+                    query += '*'
+                else:
+                    query += keys
+                if table is None:
+                    query += ' FROM ' + self.table
+                else:
+                    query += ' FROM ' + table
+                if where:
+                    query += " WHERE " + where
 
             res = self.session.execute(query)
             if fetch == 0:

@@ -154,7 +154,7 @@ def generate_dict(list1, list2=[]):
     try:
         if not isinstance(list1, list):
             list1 = list(list1)
-        if list2 is not None:
+        if list2:
             if not isinstance(list2, list):
                 list2 = list(list2)
             return dict(zip(list1, list2))
