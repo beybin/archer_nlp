@@ -2,19 +2,16 @@ from urllib import request
 from bs4 import BeautifulSoup
 import requests
 
-headers = [
-    ('Content-Type', 'application/json;charset=UTF-8'),
-    ('User-Agent',
-     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 Edg/100.0.1185.44')
-]
+# content_type = 'application/json;charset=UTF-8'
+content_type = 'application/json'
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.57'
+
+headers = [('Content-Type', content_type), ('User-Agent', user_agent)]
 opener = request.build_opener()
 opener.addheaders = headers
 request.install_opener(opener)
 
-requests_headers = {
-    'Content-Type': 'application/json;charset=UTF-8',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 Edg/100.0.1185.44'
-}
+requests_headers = {'Content-Type': content_type, 'User-Agent': user_agent}
 
 
 # 常见流程

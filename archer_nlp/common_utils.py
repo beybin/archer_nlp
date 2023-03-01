@@ -10,6 +10,8 @@ from datetime import datetime
 import Levenshtein
 import numpy as np
 import pandas as pd
+from pandas._typing import DtypeArg
+from tqdm import tqdm
 
 
 def generate_uuid():
@@ -35,7 +37,8 @@ def get_time():
     return datetime.now().strftime("%Y-%m-%d %X")
 
 
-def read_excel(path, sheet_name: str | int | list | None = 0, header: int | None = 0, is_value=True, is_replace=True, is_ffill=False):
+def read_excel(path, is_csv=False, sheet_name: str | int | list | None = 0, header: int | None = 0, is_value=True, is_replace=True,
+               is_ffill=False, dtype: DtypeArg | None = None):
     """
     读取Excel
     :param path:
@@ -47,7 +50,10 @@ def read_excel(path, sheet_name: str | int | list | None = 0, header: int | None
     :return:
     """
     if not isinstance(sheet_name, list):
-        df = pd.read_excel(path, sheet_name=sheet_name, header=header)
+        if is_csv:
+            df = pd.read_csv(path, dtype=dtype)
+        else:
+            df = pd.read_excel(path, sheet_name=sheet_name, header=header, dtype=dtype)
         if is_ffill:
             df = df.ffill()
 
@@ -61,7 +67,7 @@ def read_excel(path, sheet_name: str | int | list | None = 0, header: int | None
             return df
     else:
         df_dic = {}
-        for key, df in pd.read_excel(path, sheet_name=sheet_name, header=header).items():
+        for key, df in pd.read_excel(path, sheet_name=sheet_name, header=header, dtype=dtype).items():
             if is_ffill:
                 df = df.ffill()
 
@@ -81,7 +87,8 @@ def write_excel(path, res_list=[], columns=[], df=None):
     if df is None:
         df = pd.DataFrame(res_list, columns=columns)
     # 加engine、encoding参数是防止“openpyxl.utils.exceptions.IllegalCharacterError”
-    df.to_excel(path, engine='xlsxwriter', index=False, encoding='utf-8')
+    # df.to_excel(path, engine='xlsxwriter', index=False, encoding='utf-8')
+    df.to_excel(path, engine='xlsxwriter', index=False)
 
 
 def df_concat(df1, df2, ignore_index=True):
